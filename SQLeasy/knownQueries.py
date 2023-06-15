@@ -9,12 +9,12 @@
 defaultdB = 'customers_db'
 
 # DEFAULT FILE
-file = 'mySqlPsw.txt'
+file = 'birdOfFire.txt'
 
 # VAULT
 # Idealy, this path should be an URL path, to the 'vault-tec' server we
 # expect to host in an undeterminated future. TerritorioLinux.
-vault = 'C:/Users/Raul Vilchez Ruiz/OneDrive/Documentos/Private'
+vault = 'user/path/to_pwd'
 
 # PANDAS COLUMNS
 # It should be consulted the table before; run a simple query to
