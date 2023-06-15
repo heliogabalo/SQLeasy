@@ -1,0 +1,35 @@
+﻿customer
+========
+
+.. automodule:: customer
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      a_list_of_lists
+      create_database
+      create_db_connection
+      create_server_connection
+      execute_list_query
+      execute_query
+      read_query
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

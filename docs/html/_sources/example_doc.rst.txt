@@ -1,0 +1,91 @@
+ExampleDoc
+==========
+
+This is a paragraph This is a paragraph This is a paragraph::
+
+    This is a code block
+    This is a code block
+    This is a code block.
+
+This is a paragraph This is a paragraph This is a paragraph.
+
+
+Title Subsection
+----------------
+| This is a paragraph This is a paragraph This is a paragraph.
+| This is a paragraph This is a paragraph This is a paragraph.
+| This is a paragraph This is a paragraph This is a paragraph.
+
+**Bold**; *italic*.
+
+* A list.
+* list.
+
+  5. nested
+  6. nested
+
+3. A list.
+4. list.
+
+
+Inline link
+-----------
+
+This is a paragraph that contains `a link`_. See::
+
+  .. _a link: hijk://wrong.way ### code block ###
+
+.. _a link: hijk://wrong.way
+
+
+Block of code
+-------------
+
+With caption:
+
+.. code-block::
+   :caption: fired
+
+      The fire of the loom.
+
+... or whitout:
+
+.. code-block::
+
+      The fire is cool.
+
+Downloadables
+-------------
+
+Ciervos gratis=> :download:`descarga tu ciervo <ciervo.txt>`. See::
+
+    :download:`descarga tu ciervo <file.txt>`
+
+Role file
+---------
+The name of a file or directory with a variable part:
+
+  ... where found in :file:`/path/to/my_file3.{x}/directory` ...
+
+
+Menuselection
+-------------
+
+:menuselection:`Start --> Programs`
+
+
+Definitions
+-----------
+
+Definition
+   Definition word holds-up, no more than an entire line. The defined
+   word, can be as long as needed, but it should respect indentation.
+
+A definition:
+  Definition word holds-up, no more than an entire line. The defined
+  word, can be as long as needed, but it should respect indentation.
+
+Notes
+-----
+.. note::
+   This note describes the dummy note in this line sorroundings texts.

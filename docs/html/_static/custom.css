@@ -1,0 +1,26 @@
+/* This file intentionally left blank. */
+body {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    background-color: #b8b9e1; /*#3e0202*/
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
+
+div.body {
+    background-color: #1863eb14;
+    color: #3E4349;
+    padding: 0 30px 0 30px;
+    border-radius: 0.9em;
+    border-color: #000;
+    margin: 0.1em;
+}
+
+.body {}
+
+div.sphinxsidebarwrapper {
+    padding: 18px 10px;
+    background-color: #d9d8e959; /*#fbe54e47*/
+    border-radius: 0.9em;
+}

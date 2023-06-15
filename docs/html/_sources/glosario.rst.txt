@@ -1,0 +1,18 @@
+Glosario
+--------
+
+#. Python >3
+#. MySQL Community Server:
+#. Pandas:
+#. Free Code Camp
+#. ¿Que opciones tengo, para automatizar la conexión al servidor?
+
+Me alegra que lo pregunte. He desarrollado un pequeño algoritmo para resolver
+este problema :py:func:`customer.get_pw` .
+Aunque no es la solución ideal, esta función evita tener que escribir en texto
+plano la contraseña al servidor, dentro del archivo de código. En otras palabras;
+únicamente deberá guardar la contraseña en un archivo, colocándolo fuera del
+alcanze de la vista, de visitas intenpestivas.
+Nuestro consejo, es que contrate una cuenta en nuestro servidor de Identidad;
+*Red Hat Idm* , y situar en el lugar adecuado, una copia de todas aquellas claves
+que desee conservar de forma profesional y duradera.

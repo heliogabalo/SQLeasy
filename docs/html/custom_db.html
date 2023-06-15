@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>MySQL para PIMES! &#8212; SphinxDocs 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ExampleDoc" href="example_doc.html" />
+    <link rel="prev" title="APP_NAME" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="mysql-para-pimes">
+<h1>MySQL para PIMES!<a class="headerlink" href="#mysql-para-pimes" title="Permalink to this heading">¶</a></h1>
+<p>Este proyecto le permitirá crear y gestionar su propia base de datos
+de forma local.</p>
+<p>Toda la documentación está extraida de los distintos componentes necesarios
+para hacer funcionar la aplicación, que en su mayoría provienen de fuentes
+escritas íntegramente en inglés.
+Podrá ser solicitada la traducción en castellano, de aquellos componentes
+que inevitáblemente deban ser consultados con frecuencia.</p>
+<p>Al final de éste documento, encontrará un glosario de términos y
+referencias a las fuentes de documentación y código, que resultarán útiles
+en posteriores consultas. No dude en ponerse en contacto a través de este
+<em>correo</em> para cualquier aclaración al respecto.</p>
+<section id="resumen">
+<h2>Resumen<a class="headerlink" href="#resumen" title="Permalink to this heading">¶</a></h2>
+<p>En este apartado encontrará un resumen sobre como poner en marcha los distintos
+componentes:</p>
+<blockquote>
+<div><p>1. Localizar el script de inicio; si todo fué bien durante la instalación
+el archivo punto py “inicio.py”, deberá encontrarlo en su escritorio. Un
+doble click sobre él, establecerá la conexión a la base de datos, devolviendo
+un mensaje similar al siguiente:</p>
+<dl class="field-list simple">
+<dt class="field-odd">py:code<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>MySQL Database connection successful</cite></p>
+</dd>
+</dl>
+<p>Este pequeño dato, permite comprobar que el servidor está en marcha y correctamente
+configurado; a la espera de peticiones o consultas.</p>
+<ol class="arabic simple" start="2">
+<li><p>Realizar consultas</p></li>
+<li><p>Introducir datos</p></li>
+<li><p>Crear Nueva base de datos</p></li>
+<li><p>Crear Tablas</p></li>
+<li><p>Modificar Tablas</p></li>
+<li><p>Borrar Tablas</p></li>
+<li><p>Borrar Bases de datos</p></li>
+<li><p>Mapa de archivos y componentes:</p></li>
+<li><p>Conjunto de archivos</p></li>
+<li><p>Sugerencias posteriores consultar(desarrollo)</p></li>
+</ol>
+<p>6. Modificar Tablas: Añadir o quitar registros a una tabla, en cierta manera
+es lo mismo, que cambiar el contenido de un campo; es modificar tablas.
+Desde la perspectiva de la aplicación, la diferencia radica en la consulta
+SQL nada mas. En otras palabras, la misma función puede emplearse para
+llevar a cabo cualquier modificación.
+Se han implemetado dos de estas funciones; modify_table() y modify_many_table(),
+para cubrir todas las alternativas. La primera función llama a execute_query()
+que toma dos argumentos, la conexión a la base de datos, y la consulta SQL.
+La segunda llama a execute_list_query(), que toma un argumento extra; la
+esctructura de datos Python -o valores transpuestos. Se trata de una lista
+de tuplas, la cuál es muy conveniente para automatizar un proceso que tiene
+un origen de datos desde el lenguaje/interprete/script/otros.</p>
+<p>9. Mapa de archivos y componentes: todas las consultas/comandos a la base de
+datos, están agrupadas en archivos que siguen el siguiente convencionalismo;
+no se trata de una regla rígida, podrá nombrar sus archivos como mejor
+considere, sin embargo, es recomendable seguir esta directriz para facilitar
+la gestión de consultas escritas con anterioridad.</p>
+<blockquote>
+<div><blockquote>
+<div><p>[nomenclatura]: query_clase_nombre.py i.e: query_createTable_generic.py</p>
+</div></blockquote>
+<p>Esto le permitirá organizar las consultas que haya realizado con éxito, sobre
+otras bases de datos. Con un pequeño cambio en el nombre de la tabla a la
+que se refiere la consulta, podrá reutilizar el código de la misma, con
+relativa facilidad.</p>
+<p>Los siguientes archivos, podrán entenderse como un ‘mapa de funciones MySQL’
+o plantillas de consultas:</p>
+<ul class="simple">
+<li><p>query_create-delete_db.py</p></li>
+<li><p>query_create-delete_table.py</p></li>
+<li><p>query_simple-queries.py</p></li>
+<li><p>query_insert-extract_tables.py</p></li>
+<li><p>query_alter-tables.py</p></li>
+<li><p>query_update-tables.py</p></li>
+<li><p>personalizados/otros</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</section>
+<section id="prerrequisitos">
+<h2>Prerrequisitos<a class="headerlink" href="#prerrequisitos" title="Permalink to this heading">¶</a></h2>
+<p>Cualquier aplicación es siempre dependiente del sistema operativo
+subyacente. Así que la primera parada en nuestra hoja de ruta, será
+determinar el sistema instalado en nuestra máquina y, consultar la
+versión del mismo.</p>
+<p><strong>python &gt;&gt;&gt;</strong> print(IPython.utils.sysinfo.sys_info())</p>
+<p><strong>Linux:</strong> ‘$ uname -a’.</p>
+<p><strong>Macintosh:</strong> ‘$ uname -a’.</p>
+<p><strong>Windows:</strong> ‘Get-WindowsImage ??’ cmdlet ?, admin? user? both-at-the-same-time?.</p>
+<p>En la mayoría de sistemas <em>Linux</em> viene instalado por defecto, alguna de
+las versiones estables del lenguaje(python), sin embargo, no siempre es la
+versión instalada, la más conveniente. En éste caso, lo mejor será utilizar
+el entorno virtual de python, para lo cuál habrá que explicar como utilizarlo,
+etc.</p>
+<ul>
+<li><p>Entorno de programación python-3-{x}-patch</p></li>
+<li><p>Librerías:</p>
+<ul>
+<li><p>Servidor de Base de datos “MySQL Community Server”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">connector</span><span class="o">-</span><span class="n">python</span>
+</pre></div>
+</div>
+</li>
+<li><p>Librería Pandas:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span>
+</pre></div>
+</div>
+</li>
+<li><p>Este es el bloque de código que necesitará en sus escripts, para trabajar
+con estas dos librerías:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mysql.connector</span>
+<span class="kn">from</span> <span class="nn">mysql.connector</span> <span class="kn">import</span> <span class="n">Error</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="instalacion">
+<h2>Instalación<a class="headerlink" href="#instalacion" title="Permalink to this heading">¶</a></h2>
+<p><em>Entorno de programación; python3</em>
+describe aquí el proceso de instalación
+* en desarrollo</p>
+</section>
+<section id="api-reference">
+<h2>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="lib-sql-freecodecamp">
+<h2>lib-sql-freeCodeCamp<a class="headerlink" href="#lib-sql-freecodecamp" title="Permalink to this heading">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Principal functions object of this application. Refer to their own documentation.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="mysql.connector.connect">
+<span class="sig-prename descclassname"><span class="pre">mysql.connector.</span></span><span class="sig-name descname"><span class="pre">connect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PooledMySQLConnection</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">MySQLConnection</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">CMySQLConnection</span></span></span><a class="headerlink" href="#mysql.connector.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create or get a MySQL connection object.</p>
+<p>In its simpliest form, connect() will open a connection to a
+MySQL server and return a MySQLConnection object.</p>
+<p>When any connection pooling arguments are given, for example pool_name
+or pool_size, a pool is created or a previously one is used to return
+a PooledMySQLConnection.</p>
+<p>Returns MySQLConnection or PooledMySQLConnection.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mysql.connector.Error">
+<span class="sig-prename descclassname"><span class="pre">mysql.connector.</span></span><span class="sig-name descname"><span class="pre">Error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errno</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sqlstate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#mysql.connector.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception that is base class for all other error exceptions</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pandas.DataFrame">
+<span class="sig-prename descclassname"><span class="pre">pandas.</span></span><span class="sig-name descname"><span class="pre">DataFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dtype</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pandas.DataFrame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two-dimensional, size-mutable, potentially heterogeneous tabular data.</p>
+<p>Data structure also contains labeled axes (rows and columns).
+Arithmetic operations align on both row and column labels. Can be
+thought of as a dict-like container for Series objects. The primary
+pandas data structure.</p>
+<section id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
+<dl>
+<dt>data<span class="classifier">ndarray (structured or homogeneous), Iterable, dict, or DataFrame</span></dt><dd><p>Dict can contain Series, arrays, constants, dataclass or list-like objects. If
+data is a dict, column order follows insertion-order. If a dict contains Series
+which have an index defined, it is aligned by its index. This alignment also
+occurs if data is a Series or a DataFrame itself. Alignment is done on
+Series/DataFrame inputs.</p>
+<p>If data is a list of dicts, column order follows insertion-order.</p>
+</dd>
+<dt>index<span class="classifier">Index or array-like</span></dt><dd><p>Index to use for resulting frame. Will default to RangeIndex if
+no indexing information part of input data and no index provided.</p>
+</dd>
+<dt>columns<span class="classifier">Index or array-like</span></dt><dd><p>Column labels to use for resulting frame when data does not have them,
+defaulting to RangeIndex(0, 1, 2, …, n). If data contains column labels,
+will perform column selection instead.</p>
+</dd>
+<dt>dtype<span class="classifier">dtype, default None</span></dt><dd><p>Data type to force. Only a single dtype is allowed. If None, infer.</p>
+</dd>
+<dt>copy<span class="classifier">bool or None, default None</span></dt><dd><p>Copy data from inputs.
+For dict data, the default of None behaves like <code class="docutils literal notranslate"><span class="pre">copy=True</span></code>.  For DataFrame
+or 2d ndarray input, the default of None behaves like <code class="docutils literal notranslate"><span class="pre">copy=False</span></code>.
+If data is a dict containing one or more Series (possibly of different dtypes),
+<code class="docutils literal notranslate"><span class="pre">copy=False</span></code> will ensure that these inputs are not copied.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 1.3.0.</span></p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="see-also">
+<h3>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading">¶</a></h3>
+<p>DataFrame.from_records : Constructor from tuples, also record arrays.
+DataFrame.from_dict : From dicts of Series, arrays, or dicts.
+read_csv : Read a comma-separated values (csv) file into DataFrame.
+read_table : Read general delimited file into DataFrame.
+read_clipboard : Read text from clipboard into DataFrame.</p>
+</section>
+<section id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h3>
+<p>Please reference the :ref: <cite>User Guide basics.dataframe</cite> for more information.</p>
+</section>
+<section id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h3>
+<p>Constructing DataFrame from a dictionary.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;col1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;col2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">   col1  col2</span>
+<span class="go">0     1     3</span>
+<span class="go">1     2     4</span>
+</pre></div>
+</div>
+<p>Notice that the inferred dtype is int64.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="go">col1    int64</span>
+<span class="go">col2    int64</span>
+<span class="go">dtype: object</span>
+</pre></div>
+</div>
+<p>To enforce a single dtype:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+<span class="go">col1    int8</span>
+<span class="go">col2    int8</span>
+<span class="go">dtype: object</span>
+</pre></div>
+</div>
+<p>Constructing DataFrame from a dictionary including Series:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;col1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;col2&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">d</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="go">   col1  col2</span>
+<span class="go">0     0   NaN</span>
+<span class="go">1     1   NaN</span>
+<span class="go">2     2   2.0</span>
+<span class="go">3     3   3.0</span>
+</pre></div>
+</div>
+<p>Constructing DataFrame from numpy ndarray:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]),</span>
+<span class="gp">... </span>                   <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span>
+<span class="go">   a  b  c</span>
+<span class="go">0  1  2  3</span>
+<span class="go">1  4  5  6</span>
+<span class="go">2  7  8  9</span>
+</pre></div>
+</div>
+<p>Constructing DataFrame from a numpy ndarray that has labeled columns:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">)],</span>
+<span class="gp">... </span>                <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;i4&quot;</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df3</span>
+<span class="go">   c  a</span>
+<span class="go">0  3  1</span>
+<span class="go">1  6  4</span>
+<span class="go">2  9  7</span>
+</pre></div>
+</div>
+<p>Constructing DataFrame from dataclass:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">make_dataclass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Point</span> <span class="o">=</span> <span class="n">make_dataclass</span><span class="p">(</span><span class="s2">&quot;Point&quot;</span><span class="p">,</span> <span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>
+<span class="go">   x  y</span>
+<span class="go">0  0  0</span>
+<span class="go">1  0  3</span>
+<span class="go">2  2  3</span>
+</pre></div>
+</div>
+<p>Constructing DataFrame from Series/DataFrame:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ser</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ser</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span>
+<span class="go">   0</span>
+<span class="go">a  1</span>
+<span class="go">c  3</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df2</span>
+<span class="go">   x</span>
+<span class="go">a  1</span>
+<span class="go">c  3</span>
+</pre></div>
+</div>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customer.create_server_connection">
+<span class="sig-prename descclassname"><span class="pre">customer.</span></span><span class="sig-name descname"><span class="pre">create_server_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_pwd</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customer.create_server_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>An implemented function prototype, teaching the MySQL <code class="docutils literal notranslate"><span class="pre">connect()</span></code> method
+how_to guide. Application &lt;customer module&gt; use it to check the database server
+connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paran host_name<span class="colon">:</span></dt>
+<dd class="field-odd"><p>host runing the SQL server.</p>
+</dd>
+<dt class="field-even">Paran user_name<span class="colon">:</span></dt>
+<dd class="field-even"><p>user name.</p>
+</dd>
+<dt class="field-odd">Paran user_pwd<span class="colon">:</span></dt>
+<dd class="field-odd"><p>idem as definition name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customer.create_database">
+<span class="sig-prename descclassname"><span class="pre">customer.</span></span><span class="sig-name descname"><span class="pre">create_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customer.create_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>It stablish an initial connection. It should not be used, beyond the initial
+set up of the database connection server. So any new database initial
+configuration(any other database) it will make use of it.</p>
+<p>The actual SQL(Structured Query Language) query, it’s saved in a simple
+variable idealy. So you can write SQL commands, as you typed over a
+natural SQL interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>connection</strong> – defined connection. See create_server_connection().</p></li>
+<li><p><strong>query</strong> – python simple string. Save any MySQL valid query to
+modify the defaul value.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customer.create_db_connection">
+<span class="sig-prename descclassname"><span class="pre">customer.</span></span><span class="sig-name descname"><span class="pre">create_db_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_pwd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dbName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customer.create_db_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function library to reuse the code. It defines a MySQL server connection
+Actualy the only value that not have defults is <code class="docutils literal notranslate"><span class="pre">host_name</span></code>; not yet
+implemented.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host_name</strong> – or machine name.</p></li>
+<li><p><strong>user_name</strong> – a wise choose, to reflect a system agnostic approach(root).</p></li>
+<li><p><strong>user_pwd</strong> – user password.</p></li>
+<li><p><strong>dbName</strong> – user DataBase.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customer.execute_query">
+<span class="sig-prename descclassname"><span class="pre">customer.</span></span><span class="sig-name descname"><span class="pre">execute_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customer.execute_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function library; method cursor(). As usual, it is passed the connection
+method to the cursor() function libraryin python style, where everything
+is an object; as our connection.
+We wrap the function contents, inside a try … except sentence, to catch up
+the server answer. Note the commit() method here, because not doing this,
+the actual query will be flushed away, without any effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>connection</strong> – reusable code, as seen before.</p></li>
+<li><p><strong>query</strong> – This argument is a placeholder of the actual SQL function.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Note that any query that write data(add, delete, modify) to the database, will
+use this execute_query() function. Read(or fetch) data is another way
+to do things, and requires another function by their own.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customer.read_query">
+<span class="sig-prename descclassname"><span class="pre">customer.</span></span><span class="sig-name descname"><span class="pre">read_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customer.read_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read only function, to interface the database. It differs slightly from
+execute_query() function, with the fetchall() method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>connection</strong> – our connection, as usual.</p></li>
+<li><p><strong>query</strong> – those qN* SQL functions, writed as a simple string. I.e:
+“SELECT * FROM clients”</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customer.execute_list_query">
+<span class="sig-prename descclassname"><span class="pre">customer.</span></span><span class="sig-name descname"><span class="pre">execute_list_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">connection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sql</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customer.execute_list_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>MySQL function to push ‘packaged’ data to the DB. It takes a Python data
+structures -such as a list, and insert directly into the database.
+Useful to store user activity logs or inputs from users into a wiki or
+social media app, we have built.</p>
+<p>If the database is open to other users, it helps to prevent aginsst
+SQL-injection attacks. To acomplish this task it has been used the method
+<code class="docutils literal notranslate"><span class="pre">executemany()</span></code>.</p>
+<p>It is coincidence the use of the Python placeholder <code class="docutils literal notranslate"><span class="pre">%s</span></code>. It refers
+to the SQL one, and it does not distiguish betweeen <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">int</span></code>.
+Using this method it is encouraged to name the <code class="docutils literal notranslate"><span class="pre">val</span></code> parameter as
+a specifically named variable, if you think in save the query for automated
+queries; more easy to find inside the config file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parm connection<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MySQL connection.</p>
+</dd>
+<dt class="field-even">Parm sql<span class="colon">:</span></dt>
+<dd class="field-even"><p>the SQL command you are trying to run.</p>
+</dd>
+<dt class="field-odd">Parm val<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of Python tuples.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="lib-custom-dbdisplayer">
+<h2>lib-custom_dbDisplayer<a class="headerlink" href="#lib-custom-dbdisplayer" title="Permalink to this heading">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Customer module functions. Following list could change upon new releases.</p>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="example.myFunction">
+<span class="sig-prename descclassname"><span class="pre">example.</span></span><span class="sig-name descname"><span class="pre">myFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">argv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">argc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#example.myFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the function documentation that one could expect to find
+in a regular python function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>argv</strong> – first_param</p></li>
+<li><p><strong>argc</strong> – second_param</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>description</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.prompt_user">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">prompt_user</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.prompt_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just another of those informational and tedious user prompts. Future
+implemetations of this function, could change their actual functionallity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return</strong> – name; user data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.get_dbName">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">get_dbName</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'customers_db'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.get_dbName" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to set up the database name.
+Defaults to config file set up. Use this argument to config
+a new value in run time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbName</strong> – var. Placeholder.</p></li>
+<li><p><strong>return</strong> – return database name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>return database name.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.get_pw">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">get_pw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mySqlPsw.txt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.get_pw" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to avoid writing sensible data, in a plain text maner.
+Defaults to config file set up. Use this argument to config
+a new value in run time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Param<span class="colon">:</span></dt>
+<dd class="field-odd"><p>file_name var. Placeholder.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.test_connection">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">test_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.test_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test The SQL server state. Expected result: successful connection.
+Be sure the server is up an running before to try a connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return</strong> – return connection.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.connect_to_database">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">connect_to_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbName</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'customers_db'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.connect_to_database" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to available database. This routine could be improved
+in several ways.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbName</strong> – default value. Positional, implicit named, called
+by omision.</p></li>
+<li><p><strong>return</strong> – return connection.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.start_query">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">start_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">SELECT</span> <span class="pre">*\n</span>&#160;&#160;&#160; <span class="pre">FROM</span> <span class="pre">clients\n'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.start_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a new query on the server side.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>default</strong> – default query. Positional, implicit named, called
+by omision.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.list_dataBases">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">list_dataBases</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.list_dataBases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loops in a database list.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.replace_sql_cmd">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">replace_sql_cmd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.replace_sql_cmd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.create_db">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">create_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.create_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>A method creates a database. As usual wrap the query fn() inside
+a python function-documentation block.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.delete_db">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">delete_db</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.delete_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the Data Base name. Defuaults to configuration variable
+defined in respective file. Look in documentation pages to refer it.
+From your configutation file you can adapt the message to your special
+needs, including this note.</p>
+<p>A confirmation message pop-up, requiring your ATENTION. Possible answers
+expected &lt;[y], [yes], [Y], [YES]&gt;. No defaults yet implemented, white
+blanks, carriage return, or break commands should be ignored. Other
+values &lt;[n], [no], [N], [NO]&gt; will be considered as a negative answer
+in the same way.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pram</strong> – description param.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.create_table">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">create_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.create_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method creates a table. As usual wrap the query fn() inside
+a python function-documentation block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>default</strong> – not implemented yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.delete_table">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">delete_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.delete_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method deletes a table. As usual wrap the query fn() inside
+a python function-documentation block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>default</strong> – not implemented yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.insert_into_table">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">insert_into_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.insert_into_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert into table &lt;table name&gt;. It takes no arguments;
+just remember to not overlap the index on automatic fields
+where the table definition field is configured as an
+‘AUTO_INCREMENT’ value.
+Push the row value for the ‘AUTO_INCREMENT’ field as NULL;
+otherwise the table will end up with an index field -usually,
+overlapping identifiers.</p>
+<p>The query saved as python string, is the main entry point.
+Use that to adjust the task.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.delete_from_table">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">delete_from_table</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.delete_from_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes records from a table. As usual wrap the query fn()
+inside a python function-documentation block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>default</strong> – not implemented yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="SQLeasy.init_app">
+<span class="sig-prename descclassname"><span class="pre">SQLeasy.</span></span><span class="sig-name descname"><span class="pre">init_app</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#SQLeasy.init_app" title="Permalink to this definition">¶</a></dt>
+<dd><p>init_connection documentation</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="customer.a_list_of_lists">
+<span class="sig-prename descclassname"><span class="pre">customer.</span></span><span class="sig-name descname"><span class="pre">a_list_of_lists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customer.a_list_of_lists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specific to the Pandas library. Default’s Pandas method requires a list of
+lists, as starting point to build the data frame(our database query). So
+we need to transform a list of tuples(the actual output), to a more
+convenient way, to work with the returned datum. It takes no arguments.
+This implementation is a “all-or-nothing” method, that writes the table
+directly into a “dump.html” file.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">SphinxDocs</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MySQL para PIMES!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#resumen">Resumen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prerrequisitos">Prerrequisitos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#instalacion">Instalación</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-reference">API reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lib-sql-freecodecamp">lib-sql-freeCodeCamp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lib-custom-dbdisplayer">lib-custom_dbDisplayer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example_doc.html">ExampleDoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="glosario.html">Glosario</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">APP_NAME</a></li>
+      <li>Next: <a href="example_doc.html" title="next chapter">ExampleDoc</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Raul Vilchez.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/custom_db.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

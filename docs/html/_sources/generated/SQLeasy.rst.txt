@@ -1,0 +1,45 @@
+﻿SQLeasy
+=======
+
+.. automodule:: SQLeasy
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      connect_to_database
+      create_db
+      create_table
+      delete_db
+      delete_from_table
+      delete_table
+      get_dbName
+      get_pw
+      init_app
+      insert_into_table
+      list_dataBases
+      modify_many_table
+      modify_table
+      prompt_user
+      replace_sql_cmd
+      start_query
+      test_connection
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

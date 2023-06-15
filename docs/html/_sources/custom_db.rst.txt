@@ -1,0 +1,185 @@
+MySQL para PIMES!
+=================
+
+Este proyecto le permitirá crear y gestionar su propia base de datos
+de forma local.
+
+Toda la documentación está extraida de los distintos componentes necesarios
+para hacer funcionar la aplicación, que en su mayoría provienen de fuentes
+escritas íntegramente en inglés.
+Podrá ser solicitada la traducción en castellano, de aquellos componentes
+que inevitáblemente deban ser consultados con frecuencia.
+
+Al final de éste documento, encontrará un glosario de términos y
+referencias a las fuentes de documentación y código, que resultarán útiles
+en posteriores consultas. No dude en ponerse en contacto a través de este
+*correo* para cualquier aclaración al respecto.
+
+
+Resumen
+-------
+
+En este apartado encontrará un resumen sobre como poner en marcha los distintos
+componentes:
+
+   1. Localizar el script de inicio; si todo fué bien durante la instalación
+   el archivo punto py "inicio.py", deberá encontrarlo en su escritorio. Un
+   doble click sobre él, establecerá la conexión a la base de datos, devolviendo
+   un mensaje similar al siguiente:
+
+   :py:code: `MySQL Database connection successful`
+
+   Este pequeño dato, permite comprobar que el servidor está en marcha y correctamente
+   configurado; a la espera de peticiones o consultas.
+
+   2. Realizar consultas
+   3. Introducir datos
+   4. Crear Nueva base de datos
+   5. Crear Tablas
+   6. Modificar Tablas
+   7. Borrar Tablas
+   8. Borrar Bases de datos
+   9. Mapa de archivos y componentes:
+   10. Conjunto de archivos
+   11. Sugerencias posteriores consultar(desarrollo)
+
+   6. Modificar Tablas: Añadir o quitar registros a una tabla, en cierta manera
+   es lo mismo, que cambiar el contenido de un campo; es modificar tablas.
+   Desde la perspectiva de la aplicación, la diferencia radica en la consulta
+   SQL nada mas. En otras palabras, la misma función puede emplearse para
+   llevar a cabo cualquier modificación.
+   Se han implemetado dos de estas funciones; modify_table() y modify_many_table(),
+   para cubrir todas las alternativas. La primera función llama a execute_query()
+   que toma dos argumentos, la conexión a la base de datos, y la consulta SQL.
+   La segunda llama a execute_list_query(), que toma un argumento extra; la
+   esctructura de datos Python -o valores transpuestos. Se trata de una lista
+   de tuplas, la cuál es muy conveniente para automatizar un proceso que tiene
+   un origen de datos desde el lenguaje/interprete/script/otros.
+
+   9. Mapa de archivos y componentes: todas las consultas/comandos a la base de
+   datos, están agrupadas en archivos que siguen el siguiente convencionalismo;
+   no se trata de una regla rígida, podrá nombrar sus archivos como mejor
+   considere, sin embargo, es recomendable seguir esta directriz para facilitar
+   la gestión de consultas escritas con anterioridad.
+
+      [nomenclatura]: query_clase_nombre.py i.e: query_createTable_generic.py
+
+    Esto le permitirá organizar las consultas que haya realizado con éxito, sobre
+    otras bases de datos. Con un pequeño cambio en el nombre de la tabla a la
+    que se refiere la consulta, podrá reutilizar el código de la misma, con
+    relativa facilidad.
+
+    Los siguientes archivos, podrán entenderse como un 'mapa de funciones MySQL'
+    o plantillas de consultas:
+
+    * query_create-delete_db.py
+    * query_create-delete_table.py
+    * query_simple-queries.py
+    * query_insert-extract_tables.py
+    * query_alter-tables.py
+    * query_update-tables.py
+    * personalizados/otros
+
+
+Prerrequisitos
+--------------
+Cualquier aplicación es siempre dependiente del sistema operativo
+subyacente. Así que la primera parada en nuestra hoja de ruta, será
+determinar el sistema instalado en nuestra máquina y, consultar la
+versión del mismo.
+
+**python >>>** print(IPython.utils.sysinfo.sys_info())
+
+.. note:
+    From python environment it should be platform-wide.
+
+
+**Linux:** '$ uname -a'.
+
+**Macintosh:** '$ uname -a'.
+
+**Windows:** 'Get-WindowsImage ??' cmdlet ?, admin? user? both-at-the-same-time?.
+
+
+En la mayoría de sistemas *Linux* viene instalado por defecto, alguna de
+las versiones estables del lenguaje(python), sin embargo, no siempre es la
+versión instalada, la más conveniente. En éste caso, lo mejor será utilizar
+el entorno virtual de python, para lo cuál habrá que explicar como utilizarlo,
+etc.
+
+* Entorno de programación python-3-{x}-patch
+* Librerías:
+
+  * Servidor de Base de datos "MySQL Community Server"::
+
+      pip install mysql-connector-python
+
+  * Librería Pandas::
+
+      pip install pandas
+
+  * Este es el bloque de código que necesitará en sus escripts, para trabajar
+    con estas dos librerías::
+
+      import mysql.connector
+      from mysql.connector import Error
+      import pandas as pd
+
+
+
+
+
+Instalación
+-----------
+*Entorno de programación; python3*
+describe aquí el proceso de instalación
+* en desarrollo
+
+
+.. hide this content::
+    delete_this_text
+
+API reference
+-------------
+
+
+lib-sql-freeCodeCamp
+--------------------
+.. note::
+   Principal functions object of this application. Refer to their own documentation.
+
+
+.. autofunction:: mysql.connector.connect
+.. autofunction:: mysql.connector.Error
+.. autofunction:: pandas.DataFrame
+.. autofunction:: customer.create_server_connection
+.. autofunction:: customer.create_database
+.. autofunction:: customer.create_db_connection
+.. autofunction:: customer.execute_query
+.. autofunction:: customer.read_query
+.. autofunction:: customer.execute_list_query
+
+
+lib-custom_dbDisplayer
+----------------------
+.. note::
+   Customer module functions. Following list could change upon new releases.
+
+
+.. autofunction:: example.myFunction
+.. autofunction:: SQLeasy.prompt_user
+.. autofunction:: SQLeasy.get_dbName
+.. autofunction:: SQLeasy.get_pw
+.. autofunction:: SQLeasy.test_connection
+.. autofunction:: SQLeasy.connect_to_database
+.. autofunction:: SQLeasy.start_query
+.. autofunction:: SQLeasy.list_dataBases
+.. autofunction:: SQLeasy.replace_sql_cmd
+.. autofunction:: SQLeasy.create_db
+.. autofunction:: SQLeasy.delete_db
+.. autofunction:: SQLeasy.create_table
+.. autofunction:: SQLeasy.delete_table
+.. autofunction:: SQLeasy.insert_into_table
+.. autofunction:: SQLeasy.delete_from_table
+.. autofunction:: SQLeasy.init_app
+.. autofunction:: customer.a_list_of_lists
