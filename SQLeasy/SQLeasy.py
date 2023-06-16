@@ -1,10 +1,11 @@
-# import pdb
 import os
 import pandas as pd
-import FreeCC
+import FreeCC, display_initiator
 import knownQueries as sql_strings
 import Queries.query_alter_tables as qvar
-import display_initiator as display
+
+
+
 # get_machine()
 # get_user()
 
@@ -271,39 +272,15 @@ def dump_html():
 
 
 def init_app():
-  """
-  init_connection documentation
-  """
-  print(sql_strings.message)
-  job = input('>>> ')
-  if not isinstance(job, str):
-     print('Invalid entry...')
-  if (job == '1'):
-    test_connection()
-  if (job == '2'):
-    start_query()
-  if (job == '3'):
-    create_db()
-  if (job == '4'):
-    delete_db()
-  if (job == '5'):
-    connect_to_database()
-  if (job == '6'):
-    list_dataBases()
-  if (job == '7'):
-    create_table()
-  if (job == '8'):
-    delete_table()
-  if (job == '9'):
-    insert_into_table()
-  if (job == '10'):
-    delete_from_table()
-  if (job == '11'):
-    modify_table()
-  if (job == '12'):
-    dump_html()
-  if (job == 'q'):
-    print('! bye')
+  """Documentation"""
+  options = display_initiator.display_options()
+  fn = input('>>> ')
+  fn = options[fn]
+  exec(fn)
+
+
+
+
 
 
 

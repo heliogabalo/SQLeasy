@@ -2,8 +2,8 @@ SQLeasy
 =======
 
 
-SAME sqlIzer 4 all
-------------------
+SAME sqlIzer
+------------
 
 Appliance:
 - Test DataBases Server connection

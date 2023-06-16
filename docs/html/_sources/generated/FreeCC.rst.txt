@@ -1,0 +1,34 @@
+﻿FreeCC
+======
+
+.. automodule:: FreeCC
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      create_database
+      create_db_connection
+      create_server_connection
+      execute_list_query
+      execute_query
+      read_query
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

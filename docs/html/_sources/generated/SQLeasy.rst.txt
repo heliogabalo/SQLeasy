@@ -19,6 +19,7 @@
       delete_db
       delete_from_table
       delete_table
+      dump_html
       get_dbName
       get_pw
       init_app

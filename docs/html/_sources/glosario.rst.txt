@@ -8,7 +8,7 @@ Glosario
 #. ¿Que opciones tengo, para automatizar la conexión al servidor?
 
 Me alegra que lo pregunte. He desarrollado un pequeño algoritmo para resolver
-este problema :py:func:`customer.get_pw` .
+este problema :py:func:`FreeCC.get_pw` .
 Aunque no es la solución ideal, esta función evita tener que escribir en texto
 plano la contraseña al servidor, dentro del archivo de código. En otras palabras;
 únicamente deberá guardar la contraseña en un archivo, colocándolo fuera del

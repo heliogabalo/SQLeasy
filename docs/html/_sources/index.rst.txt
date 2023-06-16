@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
       # :caption: Contents:
 
-APP_NAME
+SQLeasy
 ========
 
 .. toctree::
@@ -12,9 +12,9 @@ APP_NAME
 
 
    custom_db
-   example_doc
    api
    glosario
+   template_dump.rst
 
 
 

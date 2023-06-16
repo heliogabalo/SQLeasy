@@ -1,0 +1,21 @@
+Plantilla
+=========
+
+Este documento será autogenerado por el motor de procesamiento
+de texto de **sphinx**. Deberá servir como plantilla para contener
+otros documentos o consultas a bases de datos.
+
+1. Localizar el volcado de datos desde la base de datos; aquí
+   referido como *dump.html*.
+2. Determinar el lugar dentro de este documento extensión html,
+   donde situar el contenido del volcado.
+3. Otros documentos como facturas, albaranes, pedidos, ofertas, etc
+   podrán ser generados desde aquí, utilizando el mismo procedimiento.
+4. Abrir en el editor de texto el archivo ``template_dump.html``.
+5. El bloque de código de la tabla, deberá situarse dentro de un bloque
+   ``<div> [bloque de tabla] </div>``.
+6. Situar la tabla extraida de la base de datos. También podrá
+   utilizarse alguna de las plantillas situadas en el directorio
+   ``_static``. Son algo mas específicas, referidas a documentos
+   concretos como albaranes o facturas. Podrán utilizarse igualmente
+   como plantillas.
